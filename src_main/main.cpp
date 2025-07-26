@@ -2,7 +2,7 @@
 #include "robot.h"
 #include "swerve.h"
 #include "arm.h"
-
+#include <Eigen/Dense>
 
 
 void setup() {

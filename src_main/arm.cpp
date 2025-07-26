@@ -1,7 +1,7 @@
 #include <Arduino.h> 
-#include "arm_motor.h"
+#include "arm.h"
 
 
 class RobotArm {
     
-}
+};
