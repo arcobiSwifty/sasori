@@ -3,6 +3,10 @@
 
 
 void setup() {
+  //establish can connection with main chip. 
+  //initialize with values send over via CAN communication
+  //reset motor orientation to match hall effect sensor
+
   Serial.begin(9600);
 }
 

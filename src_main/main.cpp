@@ -1,18 +1,21 @@
 #include <Arduino.h>
+#include <vector>
 #include "robot.h"
 #include "swerve.h"
-#include "arm.h"
-#include <Eigen/Dense>
+#include "controller.h"
 
+
+Robot perry;
 
 void setup() {
   //define robot. initialize robot.
+  perry = Robot();
+  perry.setup();
 }
 
 void loop() {
   
-  //Robot.update() should be called as much as possible.
-
+  perry.update() //should be called as much as possible.
   
 }
 
