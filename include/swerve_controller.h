@@ -15,6 +15,12 @@
 class SwerveController {
     public:
         SwerveController();
+        SwerveController(int fwdDir, int fwdPwm, int encDir, int encPwm);
+
+        int fwdDir;
+        int fwdPwm;
+        int encDir;
+        int encPwm;
 
         float absX;
         float absY; //used to update main controller about current position
@@ -32,8 +38,10 @@ class SwerveController {
 
  
     private:
-        int encMotorPID();
-        int fwdMotorPID();
+        float encMotorPID();
+        float fwdMotorPID();
+
+
 
 
 };

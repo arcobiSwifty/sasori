@@ -2,16 +2,17 @@
 #include <Eigen/Dense>
 #include "swerve_controller.h"
 #include "hal/stm32_can_manager.h"
+#include "imu.h"
 
 SwerveController swerve;
 STMCanCommunicator can;
-
 
 void setup() {
   //establish can connection with main chip. 
   //initialize with values send over via CAN communication
   //reset motor orientation to match hall effect sensor
-  swerve = SwerveController();
+  
+  swerve = SwerveController(1,2,3,4); //temporary values
   swerve.setup();
   can = STMCanCommunicator(&swerve);
   can.setup(500E3);
