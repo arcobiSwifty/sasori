@@ -7,3 +7,7 @@ void Robot::setup() {
 Robot::Robot() {
     
 }
+
+void Robot::update () {
+
+}

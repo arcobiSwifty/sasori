@@ -1,30 +1,33 @@
-#ifndef CAN 
+ #ifndef CAN 
 #define CAN
 
-#include "driver/twai.h"
+#include <ESP32-TWAI-CAN.hpp>
+#include "hal/can_data.h"
 
-const int clockFrequency; 
-const int rx; 
-const int tx;
+//const int clockFrequency; 
+const int rx = 4;
+const int tx = 5;
+
+const auto swerveFrameIdentifier = 0x123;
 
 
-struct SwerveCommandData {
-    float targetSpeed;
-    float targetAngle;
+// all 3 modules should use the same CAN CONTROLLER and access different functions to communicate
 
-};
+
+struct CameraUpdateData {};
+
+struct CameraPosData {};
 
 class CanCommunicator {
     void setup(int clockFrequency);
 
-    bool updateSwerve();
-    //create pointer to swerve command data. set 8 bits at a time;
+    void updateSwerve(SwerveUpdateData data);
 
-    void receiveSwerve();
+    void onReceiveSwerve(CanFrame &frame);
 
-    void updateCamera();
+    void updateCamera(CameraUpdateData data);
 
-    void receiveCamera();
+    CameraPosData receiveCamera();
 
     void reset();
 

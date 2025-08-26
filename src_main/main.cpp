@@ -15,7 +15,7 @@ void setup() {
 
 void loop() {
   
-  perry.update() //should be called as much as possible.
+  perry.update(); //should be called as much as possible.
   
 }
 

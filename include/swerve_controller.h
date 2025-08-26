@@ -2,6 +2,12 @@
 //sends update to modules about desired speed / angle
 
 
+// how it works 
+
+// step 1) receive target speed and angle
+// step 2) receive 
+
+
 class SwerveController {
     float robotAbsX;
     float robotAbsY;
@@ -9,7 +15,13 @@ class SwerveController {
     const float relX; 
     const float relY;
 
-    float angle;
+    float absX;
+    float absY;
+
+    float robotAngle;
+    const float relAngle;
     float targetSpeed;
 
 };
+
+//how it works

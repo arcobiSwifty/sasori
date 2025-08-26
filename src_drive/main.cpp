@@ -8,6 +8,8 @@ void setup() {
   //reset motor orientation to match hall effect sensor
 
   Serial.begin(9600);
+  pinMode(PA5, OUTPUT);
+  digitalWrite(PA5, HIGH);
 }
 
 void loop() {

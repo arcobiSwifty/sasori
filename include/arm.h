@@ -2,13 +2,13 @@
 #define ARM_H
 
 class ArmStepper{
-    const int DirPin;
-    const int StepPin;
-    const int SleepPin;
+    int DirPin;
+    int StepPin;
+    int SleepPin;
 };
 
 class Gripper {
-    const int pwmPin;
+    int pwmPin;
 };
 
 class Arm {
