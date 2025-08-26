@@ -4,14 +4,11 @@
 struct __attribute__((packed)) SwerveUpdateData {
     float targetRelSpeed;
     float targetRelAngle;
-    float robotPosX;
-    float robotPosY;
-    float robotAngle;
+    float targetAngleSpeed;
 };
 struct __attribute__((packed))SwervePosData {
     float absPosX;
     float absPosY;
-    float relAngle;
 };
 
 #endif

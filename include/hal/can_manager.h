@@ -8,6 +8,10 @@
 const int rx = 4;
 const int tx = 5;
 
+//packet id list 
+// update swerve target speed 0x123
+// update robot position 
+
 const auto swerveFrameIdentifier = 0x123;
 
 

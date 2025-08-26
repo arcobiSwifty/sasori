@@ -8,7 +8,6 @@
 Robot perry;
 
 void setup() {
-  //define robot. initialize robot.
   perry = Robot();
   perry.setup();
 }

@@ -1,3 +1,7 @@
+#ifndef SWERVE
+#define SWERVE
+
+#include "hal/can_data.h"
 // from joystick imputs, calculates each modules desidered movement. communicates with swerve modules and updates central position. 
 //sends update to modules about desired speed / angle
 
@@ -9,19 +13,29 @@
 
 
 class SwerveController {
-    float robotAbsX;
-    float robotAbsY;
+    public:
+        SwerveController();
 
-    const float relX; 
-    const float relY;
+        float absX;
+        float absY; //used to update main controller about current position
 
-    float absX;
-    float absY;
+        volatile float targetAngleSpeed; // volatile because updated by ISR events triggered by CAN packet receival 
+        volatile float targetSpeed;
+        volatile float targetAngle;
 
-    float robotAngle;
-    const float relAngle;
-    float targetSpeed;
+        float angle;
+        float speed;
+
+        void update();
+        void setup();
+        void updateTarget(SwerveUpdateData& data);
+
+ 
+    private:
+        int encMotorPID();
+        int fwdMotorPID();
+
 
 };
 
-//how it works
+#endif
