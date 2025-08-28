@@ -35,9 +35,12 @@ class BluetoothController {
         BluetoothController();
 
         volatile bool armMode; 
+        volatile bool commandSent;
 
-        volatile int RJoystick; 
-        volatile int LJoyStick; 
+        volatile int LastRJoyStickX; 
+        volatile int LastLJoyStickX; 
+        volatile int LastRJoyStickY; 
+        volatile int LastLJoyStickY; 
 
         void connect();
         

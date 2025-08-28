@@ -8,13 +8,17 @@
 
 static BluetoothController human;
 static Robot perry;
-void setup() {
-  
-  perry.setup();
+static CanCommunicator c;
 
+void setup() {
+  int LED_BUILTIN = 2;
+
+  pinMode(LED_BUILTIN, OUTPUT);
+  digitalWrite(LED_BUILTIN, HIGH);
   
+  c.setup(500E3);
   human.connect();
-  Serial.begin(115200);
+  perry.setup(&human);
 }
 
 void loop() {

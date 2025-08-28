@@ -3,6 +3,7 @@
 
 #include "arm.h"
 #include "hal/can_manager.h"
+#include "Bcontroller.h"
 
 //handles main update loop and setup. delegates tasks to the swerve controller arm and logger components.
 
@@ -13,9 +14,9 @@ class Robot {
         Robot();
 
         Arm arm;
-        CanCommunicator can;
+        CanCommunicator* can;
 
-        void setup();
+        void setup(BluetoothController* human);
         void update();
 
 
@@ -23,6 +24,8 @@ class Robot {
         void rotateToAngle(float angle);
         float getAbsPosX();
         float getAbsPosY();
+
+        BluetoothController* BC;
 
     private: 
         float absPosX; //units in mm

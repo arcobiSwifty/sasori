@@ -23,17 +23,18 @@ struct CameraUpdateData {};
 struct CameraPosData {};
 
 class CanCommunicator {
-    void setup(int clockFrequency);
+    public: 
+        void setup(int clockFrequency);
 
-    void updateSwerve(SwerveUpdateData data);
+        void updateSwerve(SwerveUpdateData data);
 
-    void onReceiveSwerve(CanFrame &frame);
+        void onReceiveSwerve(CanFrame &frame);
 
-    void updateCamera(CameraUpdateData data);
+        void updateCamera(CameraUpdateData data);
 
-    CameraPosData receiveCamera();
+        CameraPosData receiveCamera();
 
-    void reset();
+        void reset();
 
 };
 
