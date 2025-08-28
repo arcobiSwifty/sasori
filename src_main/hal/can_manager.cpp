@@ -1,4 +1,5 @@
 #include "hal/can_manager.h"
+#include <ESP32-TWAI-CAN.hpp>
 
 void CanCommunicator::setup(int clockFrequency) {
     ESP32Can.setPins(tx, rx);
@@ -7,11 +8,20 @@ void CanCommunicator::setup(int clockFrequency) {
 
 void CanCommunicator::updateSwerve(SwerveUpdateData data) {
     CanFrame txFrame = {0};
-    txFrame.identifier = 0x123;
     txFrame.extd = 0; 
     txFrame.data_length_code = sizeof(data);
 
-    memcpy(txFrame.data, &data, sizeof(data));
+    txFrame.identifier = 0x123;
+    memcpy(txFrame.data, &data, 8);
+    ESP32Can.writeFrame(txFrame);
+
+    txFrame.identifier = 0x124;
+    memcpy(txFrame.data, (uint8_t*)&data + 8, 8);
+    ESP32Can.writeFrame(txFrame);
+    
+    txFrame.identifier = 0x125;
+    memcpy(txFrame.data, (uint8_t*)&data + 16, 8);
+    ESP32Can.writeFrame(txFrame);
 }
 
 // swerve module is not an esp32 so this is not needed

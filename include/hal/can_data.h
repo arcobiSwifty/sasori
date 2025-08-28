@@ -2,9 +2,9 @@
 #define CANDATA
 
 struct __attribute__((packed)) SwerveUpdateData {
-    float targetRelSpeed;
-    float targetRelAngle;
-    float targetAngleSpeed;
+    double targetRelSpeed;
+    double targetRelAngle;
+    double targetAngleSpeed;
 };
 struct __attribute__((packed))SwervePosData {
     float absPosX;

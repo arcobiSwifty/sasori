@@ -1,7 +1,7 @@
  #ifndef CAN 
 #define CAN
 
-#include <ESP32-TWAI-CAN.hpp>
+//#include <ESP32-TWAI-CAN.hpp>
 #include "hal/can_data.h"
 
 //const int clockFrequency; 

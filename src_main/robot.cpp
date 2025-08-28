@@ -23,7 +23,8 @@ void Robot::update () {
                 data.targetRelAngle = 3.1415 / 2.0;
             }
             data.targetRelSpeed = sqrt(BC->LastRJoyStickX*BC->LastRJoyStickX + BC->LastRJoyStickY*BC->LastRJoyStickY) / 128;
-            can->updateSwerve(data);
+            can->updateSwerve(data);\
+            BC->commandSent=true;
         }
         
     }
