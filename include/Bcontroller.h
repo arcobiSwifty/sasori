@@ -1,3 +1,6 @@
+#ifndef B_CONTROLLER
+#define B_CONTROLLER
+
 //include controller library
 
 //connectos to dual shock controller. handles input routing 
@@ -26,9 +29,15 @@
 
 // option: reset swerve module
 
-class BluetoothController {
-    
+
+namespace BluetoothController {
     void connect();
+    
+    void onConnect();
 
+    void onDisconnect();
 
-};
+    void onEvent();
+}
+
+#endif

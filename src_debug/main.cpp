@@ -1,8 +1,9 @@
 #include <ESP32-TWAI-CAN.hpp>
+#include <Arduino.h>
 
 // Default for ESP32
-#define CAN_TX 37
-#define CAN_RX 36
+#define CAN_TX 4
+#define CAN_RX 5
 
 // Define the structure to hold our data.
 // The __attribute__((packed)) ensures that the compiler doesn't add any padding bytes,

@@ -16,7 +16,7 @@ void SwerveController::setup() {
     pinMode(encPwm, OUTPUT);
 }
 
-void SwerveController::update() { // maybe refactor
+void SwerveController::update() { // TODO refactor
     // self update speed and angle from sensors
     // get pid values
     float PID_fwd = this->fwdMotorPID();

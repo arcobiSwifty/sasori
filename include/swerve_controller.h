@@ -29,8 +29,8 @@ class SwerveController {
         volatile float targetSpeed;
         volatile float targetAngle;
 
-        float angle;
-        float speed;
+        volatile float angle;
+        volatile float speed;
 
         void update();
         void setup();
