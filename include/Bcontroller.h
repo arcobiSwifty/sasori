@@ -30,14 +30,26 @@
 // option: reset swerve module
 
 
-namespace BluetoothController {
-    void connect();
-    
-    void onConnect();
+class BluetoothController {
+    public: 
+        BluetoothController();
 
-    void onDisconnect();
+        volatile bool armMode; 
 
-    void onEvent();
-}
+        volatile int RJoystick; 
+        volatile int LJoyStick; 
+
+        void connect();
+        
+        static void onConnect();
+
+        static void onDisconnect();
+
+        static void onEvent();
+
+        void handleEvent();
+
+        static BluetoothController* instance;
+};
 
 #endif

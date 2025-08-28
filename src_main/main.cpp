@@ -6,15 +6,14 @@
 #include "hal/can_manager.h"
 
 
-
-Robot perry;
-
-
+static BluetoothController human;
+static Robot perry;
 void setup() {
-  perry = Robot();
+  
   perry.setup();
 
-  BluetoothController::connect();
+  
+  human.connect();
   Serial.begin(115200);
 }
 
