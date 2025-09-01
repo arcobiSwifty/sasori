@@ -14,11 +14,11 @@ BluetoothController::BluetoothController() {
 }
 
 void BluetoothController::connect() {
-    
+    ps4.begin("00:1f:e2:a0:04:32");
     ps4.attachOnConnect(onConnect);
     ps4.attachOnDisconnect(onDisconnect);
     ps4.attach(onEvent);
-    ps4.begin();
+    
     
 }
 

@@ -11,14 +11,11 @@ static Robot perry;
 static CanCommunicator c;
 
 void setup() {
-  int LED_BUILTIN = 2;
-
-  pinMode(LED_BUILTIN, OUTPUT);
-  digitalWrite(LED_BUILTIN, HIGH);
   
   c.setup(500E3);
   human.connect();
   perry.setup(&human);
+
 }
 
 void loop() {

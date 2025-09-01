@@ -4,6 +4,8 @@
 #include "arm.h"
 #include "hal/can_manager.h"
 #include "Bcontroller.h"
+#include "hal/can_manager.h"
+#include <ESP32-TWAI-CAN.hpp>
 
 //handles main update loop and setup. delegates tasks to the swerve controller arm and logger components.
 
