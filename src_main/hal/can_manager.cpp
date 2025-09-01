@@ -19,9 +19,7 @@ void CanCommunicator::updateSwerve(SwerveUpdateData data) {
     memcpy(txFrame.data, (uint8_t*)&data + 8, 8);
     ESP32Can.writeFrame(txFrame);
     
-    txFrame.identifier = 0x125;
-    memcpy(txFrame.data, (uint8_t*)&data + 16, 8);
-    ESP32Can.writeFrame(txFrame);
+
 }
 
 // swerve module is not an esp32 so this is not needed

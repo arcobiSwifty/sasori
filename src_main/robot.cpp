@@ -23,7 +23,7 @@ void Robot::updateArm() {
 
 void Robot::updateSwerve() {
     if (BC != nullptr && can != nullptr) {
-        if (BC->commandSent != true) {
+        if (BC->commandSent == false) {
             SwerveUpdateData data;
 
             double rx = static_cast<double>(BC->LastRJoyStickX);
@@ -31,13 +31,16 @@ void Robot::updateSwerve() {
             double lx = static_cast<double>(BC->LastLJoyStickX);
             double ly = static_cast<double>(BC->LastLJoyStickY);
 
-            data.targetAngleSpeed = sqrt(rx*rx + ry*ry) / 128.0;
-            if (BC->LastLJoyStickX != 0.0) {
-            data.targetRelSpeed = atan(ry/rx);
-            } else {
-                data.targetRelAngle = 3.1415 / 2.0;
-            }
-            data.targetRelSpeed = sqrt(lx*lx + ly*ly) / 128.0;
+            data.rx = BC->LastRJoyStickX;
+            data.ry = BC->LastRJoyStickY;
+            data.lx = BC->LastLJoyStickX;
+            data.ly = BC->LastLJoyStickY;
+
+            //old calculations
+            //data.targetAngleSpeed = sqrt(rx*rx + ry*ry) / 128.0;
+            //data.targetRelAngle = (BC->LastLJoyStickX != 0.0) ? atan(ry / rx) : data.targetRelAngle = 3.1415 / 2.0;
+            //data.targetRelSpeed = sqrt(lx*lx + ly*ly) / 128.0;
+
             can->updateSwerve(data);
             BC->commandSent=true;
         }

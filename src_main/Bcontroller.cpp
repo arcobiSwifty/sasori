@@ -37,6 +37,8 @@ void BluetoothController::onEvent()
   }
 }
 
+
+// do not call any functions from here! this function should execute as quickly as possible to free the cpu
 void BluetoothController::handleEvent()
 {
 
@@ -118,8 +120,19 @@ void BluetoothController::handleEvent()
   }
 }
 
+//in error state, set led to red
 void BluetoothController::setErrorState()
 {
   ps4.setLed(250, 0, 0);
+  ps4.sendToController();
+}
+
+void BluetoothController::setNormalState() {
+  ps4.setLed(0, 250, 0);
+  ps4.sendToController();
+}
+
+void BluetoothController::setObjectDetectedState() {
+  ps4.setLed(250, 250, 0);
   ps4.sendToController();
 }
