@@ -26,15 +26,10 @@ void Robot::updateSwerve() {
         if (BC->commandSent == false) {
             SwerveUpdateData data;
 
-            double rx = static_cast<double>(BC->LastRJoyStickX);
-            double ry = static_cast<double>(BC->LastRJoyStickY);
-            double lx = static_cast<double>(BC->LastLJoyStickX);
-            double ly = static_cast<double>(BC->LastLJoyStickY);
-
-            data.rx = BC->LastRJoyStickX;
-            data.ry = BC->LastRJoyStickY;
-            data.lx = BC->LastLJoyStickX;
-            data.ly = BC->LastLJoyStickY;
+            data.rx = static_cast<char>(BC->LastRJoyStickX);
+            data.ry = static_cast<char>(BC->LastRJoyStickY);
+            data.lx = static_cast<char>(BC->LastLJoyStickX);
+            data.ly = static_cast<char>(BC->LastLJoyStickY);
 
             //old calculations
             //data.targetAngleSpeed = sqrt(rx*rx + ry*ry) / 128.0;

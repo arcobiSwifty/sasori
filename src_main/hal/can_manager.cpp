@@ -12,13 +12,9 @@ void CanCommunicator::updateSwerve(SwerveUpdateData data) {
     txFrame.data_length_code = sizeof(data);
 
     txFrame.identifier = 0x123;
-    memcpy(txFrame.data, &data, 8);
+    memcpy(txFrame.data, &data, sizeof(data));
     ESP32Can.writeFrame(txFrame);
 
-    txFrame.identifier = 0x124;
-    memcpy(txFrame.data, (uint8_t*)&data + 8, 8);
-    ESP32Can.writeFrame(txFrame);
-    
 
 }
 
