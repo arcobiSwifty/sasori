@@ -19,7 +19,10 @@ class Robot {
         CanCommunicator* can;
 
         void setup(BluetoothController* human);
+
         void update();
+
+        void updateSwerve();
 
 
         void moveToPos(float x, float y);

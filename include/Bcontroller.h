@@ -52,7 +52,14 @@ class BluetoothController {
 
         void handleEvent();
 
+        void setErrorState();
+        void setNormalState();
+        void setObjectDetectedState();
+        
+
         static BluetoothController* instance;
+
+        
 };
 
 #endif
