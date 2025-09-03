@@ -24,7 +24,8 @@ class Robot {
 
         void updateSwerve();
 
-
+        void updateArm();
+        
         void moveToPos(float x, float y);
         void rotateToAngle(float angle);
         float getAbsPosX();

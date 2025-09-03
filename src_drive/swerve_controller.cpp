@@ -1,5 +1,6 @@
 #include "swerve_controller.h"
 #include <Arduino.h>
+#include <math.h>
 
 SwerveController::SwerveController() {}
 SwerveController::SwerveController(int fwdDir, int fwdPwm, int encDir, int encPwm) {
@@ -52,7 +53,13 @@ float SwerveController::encMotorPID() {
     return dtheta*targetAngleSpeed*k;
 }
 void SwerveController::updateTarget(SwerveUpdateData& data) {
+
+    //data.targetAngleSpeed = ;
+    //data.targetRelAngle = (BC->LastLJoyStickX != 0.0) ? atan(ry / rx) : data.targetRelAngle = 3.1415 / 2.0;
+     //data.targetRelSpeed = sqrt(lx*lx + ly*ly) / 128.0;
+
+
     this->targetSpeed = data.targetRelSpeed;
-    this->targetAngleSpeed = data.targetAngleSpeed;
+    this->targetAngleSpeed = sqrt(data.rx*data.rx + data.ry*data.ry) / 256.0 + sqrt(data);
     this->targetAngle = data.targetRelAngle;
 }

@@ -1,6 +1,7 @@
 #include "robot.h"
 #include "hal/can_data.h"
 #include <math.h>
+#include <cstdint> 
 
 void Robot::setup(BluetoothController* bc) {
     this->arm.setup();
@@ -26,10 +27,10 @@ void Robot::updateSwerve() {
         if (BC->commandSent == false) {
             SwerveUpdateData data;
 
-            data.rx = static_cast<char>(BC->LastRJoyStickX);
-            data.ry = static_cast<char>(BC->LastRJoyStickY);
-            data.lx = static_cast<char>(BC->LastLJoyStickX);
-            data.ly = static_cast<char>(BC->LastLJoyStickY);
+            data.rx = static_cast<int16_t>(BC->LastRJoyStickX);
+            data.ry = static_cast<int16_t>(BC->LastRJoyStickY);
+            data.lx = static_cast<int16_t>(BC->LastLJoyStickX);
+            data.ly = static_cast<int16_t>(BC->LastLJoyStickY);
 
             //old calculations
             //data.targetAngleSpeed = sqrt(rx*rx + ry*ry) / 128.0;

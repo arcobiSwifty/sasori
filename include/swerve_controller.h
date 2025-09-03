@@ -12,6 +12,20 @@
 // step 2) receive 
 
 
+// PORT LIST 
+/* 
+    Hall sensor (reset)
+    AS5600 
+    Gyroscope 
+        CLK
+        other port 
+        encMot DIR
+        encMot Pwm 
+        fwdMot DIR
+        fwdMot Pwm
+*/
+
+
 class SwerveController {
     public:
         SwerveController();
@@ -27,7 +41,12 @@ class SwerveController {
 
         volatile float targetAngleSpeed; // volatile because updated by ISR events triggered by CAN packet receival 
         volatile float targetSpeed;
-        volatile float targetAngle;
+        volatile float targetAngle; //target angle relative to robot angle;
+        volatile float targetRobotAngle;
+        volatile float robotAngle;
+
+        volatile float robotCenterX;
+        volatile float robotCenterY;
 
         volatile float angle;
         volatile float speed;
@@ -35,6 +54,15 @@ class SwerveController {
         void update();
         void setup();
         void updateTarget(SwerveUpdateData& data);
+
+        //sensors 
+
+        int resetHS; //reset hall sensor pin 
+        int wheelRot; 
+        int gyro;
+
+
+
 
  
     private:

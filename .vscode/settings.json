@@ -2,6 +2,7 @@
     "files.associations": {
         "dense": "cpp",
         "cmath": "cpp",
-        "*.inc": "cpp"
+        "*.inc": "cpp",
+        "cstdint": "cpp"
     }
 }
