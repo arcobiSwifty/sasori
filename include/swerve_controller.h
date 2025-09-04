@@ -23,11 +23,16 @@
         encMot Pwm 
         fwdMot DIR
         fwdMot Pwm
+    CAN
+        rx A11 
+        tx A12
 */
 
 
 class SwerveController {
     public:
+        const double WHEEL_RADIUS = 10.0;
+
         SwerveController();
         SwerveController(int fwdDir, int fwdPwm, int encDir, int encPwm);
 
@@ -36,8 +41,8 @@ class SwerveController {
         int encDir;
         int encPwm;
 
-        float absX;
-        float absY; //used to update main controller about current position
+        double absX;
+        double absY; //used to update main controller about current position
 
         volatile float targetAngleSpeed; // volatile because updated by ISR events triggered by CAN packet receival 
         volatile float targetSpeed;
@@ -51,6 +56,11 @@ class SwerveController {
         volatile float angle;
         volatile float speed;
 
+        volatile double lastWheelAngle;
+        double instantaneousSpeed; 
+        double averageSpeed;
+        double timeLastPolled; //change data type
+
         void update();
         void setup();
         void updateTarget(SwerveUpdateData& data);
@@ -58,8 +68,10 @@ class SwerveController {
         //sensors 
 
         int resetHS; //reset hall sensor pin 
-        int wheelRot; 
+        int wheelRot = 7; 
         int gyro;
+
+        void updatePos();
 
 
 

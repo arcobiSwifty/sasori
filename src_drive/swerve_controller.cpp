@@ -2,6 +2,7 @@
 #include <Arduino.h>
 #include <math.h>
 
+
 SwerveController::SwerveController() {}
 SwerveController::SwerveController(int fwdDir, int fwdPwm, int encDir, int encPwm) {
     this->fwdDir = fwdDir;
@@ -40,6 +41,21 @@ void SwerveController::update() { // TODO refactor
         digitalWrite(fwdDir, LOW);
         digitalWrite(fwdPwm, LOW);
     }
+    updatePos();
+}
+
+void SwerveController::updatePos() {
+    int wheelPosition = analogRead(wheelRot);
+    double travelledDistance = static_cast<double>(wheelPosition) / 1023.0 * WHEEL_RADIUS;
+
+    double temp_dx = travelledDistance * cos(angle);
+    double temp_dy = travelledDistance * sin(angle); 
+    //update timeLastPolled
+    //update average and instantaneous speed
+
+
+    //error correction necessary
+
 }
 // these functions are just proportional controls for now. TODO: make pid
 float SwerveController::fwdMotorPID() {
@@ -54,12 +70,13 @@ float SwerveController::encMotorPID() {
 }
 void SwerveController::updateTarget(SwerveUpdateData& data) {
 
-    //data.targetAngleSpeed = ;
-    //data.targetRelAngle = (BC->LastLJoyStickX != 0.0) ? atan(ry / rx) : data.targetRelAngle = 3.1415 / 2.0;
-     //data.targetRelSpeed = sqrt(lx*lx + ly*ly) / 128.0;
+    double rx = static_cast<double>(data.rx);
+    double ry = static_cast<double>(data.ry);
+    double lx = static_cast<double>(data.lx);
+    double ly = static_cast<double>(data.ly);
 
 
-    this->targetSpeed = data.targetRelSpeed;
-    this->targetAngleSpeed = sqrt(data.rx*data.rx + data.ry*data.ry) / 256.0 + sqrt(data);
-    this->targetAngle = data.targetRelAngle;
+    this->targetSpeed =  sqrt(lx*lx + ly*ly) / 128.0;
+    this->targetAngleSpeed = sqrt(rx*rx+ry*ry) / 256.0 + sqrt(lx*lx + ly*ly) / 256.0;
+    this->targetAngle = (lx != 0.0) ? atan(ry / rx) : 3.1415 / 4.0;
 }
