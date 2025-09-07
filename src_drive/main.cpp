@@ -5,17 +5,15 @@
 #include "imu.h"
 
 
-SwerveController swerve(1,2,3,4);
+SwerveController swerve(PA0,PA1,PA2,PA3);
 STMCanCommunicator can;
 
 void setup() {
-  //establish can connection with main chip. 
-  //initialize with values send over via CAN communication
-  //reset motor orientation to match hall effect sensor
   
-   //temporary values
-  swerve.setup();
-  can.setup(500E3);
+  swerve.setup();   // setup arduino pins 
+  can.setup(500E3);  //establish can connection with main chip. 
+
+  swerve.reset(); //reset motor orientation to match hall effect sensor
 }
 
 void loop() {
