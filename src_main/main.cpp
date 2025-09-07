@@ -6,15 +6,15 @@
 #include "hal/can_manager.h"
 
 
-static BluetoothController human;
-static Robot perry;
-static CanCommunicator c;
+BluetoothController BC;
+Robot perry;
+CanCommunicator ESPcan;
 
 void setup() {
   
-  c.setup(500E3);
-  human.connect();
-  perry.setup(&human);
+  ESPcan.setup(500E3);
+  BC.connect();
+  perry.setup();
 
 }
 

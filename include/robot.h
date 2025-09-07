@@ -15,10 +15,7 @@ class Robot {
 
         Robot();
 
-        Arm arm;
-        CanCommunicator* can;
-
-        void setup(BluetoothController* human);
+        void setup();
 
         void update();
 
@@ -30,8 +27,6 @@ class Robot {
         void rotateToAngle(float angle);
         float getAbsPosX();
         float getAbsPosY();
-
-        BluetoothController* BC;
 
     private: 
         float absPosX; //units in mm
@@ -49,6 +44,7 @@ class Robot {
     //log
 };
 
+extern Robot perry;
 
 
 #endif

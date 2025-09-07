@@ -1,11 +1,9 @@
 #include "Bcontroller.h"
 #include <ps4Controller.h>
 
-BluetoothController *BluetoothController::instance = nullptr;
 
 BluetoothController::BluetoothController()
 {
-  this->instance = this;
   commandSent = true;
   LastLJoyStickX = 0;
   LastLJoyStickY = 0;
@@ -31,10 +29,7 @@ void BluetoothController::onDisconnect()
 
 void BluetoothController::onEvent()
 {
-  if (instance != nullptr)
-  {
-    instance->handleEvent();
-  }
+    BC.handleEvent();
 }
 
 

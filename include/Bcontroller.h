@@ -56,10 +56,8 @@ class BluetoothController {
         void setNormalState();
         void setObjectDetectedState();
         
-
-        static BluetoothController* instance;
-
-        
 };
+
+extern BluetoothController BC;
 
 #endif

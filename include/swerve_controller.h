@@ -68,8 +68,8 @@ class SwerveController {
         volatile double targetRobotAngle;
         volatile double robotAngle;
 
-        volatile float robotCenterX;
-        volatile float robotCenterY;
+        volatile double robotCenterX;
+        volatile double robotCenterY;
 
         volatile double angle;
         volatile double speed;

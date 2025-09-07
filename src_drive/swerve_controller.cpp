@@ -39,7 +39,7 @@ void SwerveController::setup() {
     pinMode(gyroSDA, INPUT);
     pinMode(gyroSDO, INPUT);
 
-    attachInterrupt(digitalPinToInterrupt(enc1), encMotChange);
+    attachInterrupt(digitalPinToInterrupt(enc1), encMotChange, FALLING);
 
 
 }

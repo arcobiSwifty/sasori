@@ -38,4 +38,6 @@ class CanCommunicator {
 
 };
 
+extern CanCommunicator ESPcan;
+
 #endif

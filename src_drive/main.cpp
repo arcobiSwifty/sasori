@@ -5,15 +5,16 @@
 #include "imu.h"
 
 
-SwerveController swerve(PA0,PA1,PA2,PA3);
+SwerveController swerve;
 STMCanCommunicator can;
 
 void setup() {
-  
+  swerve.InitMotorPins(PA0,PA1,PA2,PA3);
+  swerve.InitSensorPins(PB0, PB1, PB2, PB3, PB4, PB5, PB6, PB7);
   swerve.setup();   // setup arduino pins 
-  can.setup(500E3);  //establish can connection with main chip. 
-
   swerve.reset(); //reset motor orientation to match hall effect sensor
+  
+  can.setup(500E3);  //establish can connection with main chip. 
 }
 
 void loop() {
