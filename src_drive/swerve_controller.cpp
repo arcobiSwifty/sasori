@@ -18,9 +18,13 @@ void SwerveController::setup() {
     pinMode(encPwm, OUTPUT);
 }
 
-void SwerveController::update() { // TODO refactor
-    // self update speed and angle from sensors
-    // get pid values
+void SwerveController::update() { 
+
+    updateMotor();
+    updatePos();
+}
+
+void SwerveController::updateMotor() {
     float PID_fwd = this->fwdMotorPID();
     float PID_enc = this->encMotorPID();
     // give command to motor based on values
@@ -41,15 +45,19 @@ void SwerveController::update() { // TODO refactor
         digitalWrite(fwdDir, LOW);
         digitalWrite(fwdPwm, LOW);
     }
-    updatePos();
 }
 
 void SwerveController::updatePos() {
-    int wheelPosition = analogRead(wheelRot);
-    double travelledDistance = static_cast<double>(wheelPosition) / 1023.0 * WHEEL_RADIUS;
+    int rawValue = analogRead(wheelRot);
+    //float angle = map(rawValue, 102, 921, 0, 360);
+    float angle = map(rawValue, 0, 1024, 0, 360);
+    double radians = static_cast<double>(angle) * 2 * 3.14159 / 360.0;
+    double travelledDistance = radians * WHEEL_RADIUS;
 
     double temp_dx = travelledDistance * cos(angle);
     double temp_dy = travelledDistance * sin(angle); 
+
+    
     //update timeLastPolled
     //update average and instantaneous speed
 

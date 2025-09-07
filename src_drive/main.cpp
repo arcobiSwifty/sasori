@@ -4,7 +4,8 @@
 #include "hal/stm32_can_manager.h"
 #include "imu.h"
 
-SwerveController swerve;
+
+SwerveController swerve(1,2,3,4);
 STMCanCommunicator can;
 
 void setup() {
@@ -12,9 +13,8 @@ void setup() {
   //initialize with values send over via CAN communication
   //reset motor orientation to match hall effect sensor
   
-  swerve = SwerveController(1,2,3,4); //temporary values
+   //temporary values
   swerve.setup();
-  can = STMCanCommunicator(&swerve);
   can.setup(500E3);
 }
 

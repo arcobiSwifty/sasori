@@ -2,6 +2,7 @@
 #define SWERVE
 
 #include "hal/can_data.h"
+#include "hal/stm32_can_manager.h"
 // from joystick imputs, calculates each modules desidered movement. communicates with swerve modules and updates central position. 
 //sends update to modules about desired speed / angle
 
@@ -26,12 +27,14 @@
     CAN
         rx A11 
         tx A12
+    ENC MOT
+
 */
 
 
 class SwerveController {
     public:
-        const double WHEEL_RADIUS = 10.0;
+        double WHEEL_RADIUS = 10.0;
 
         SwerveController();
         SwerveController(int fwdDir, int fwdPwm, int encDir, int encPwm);
@@ -63,6 +66,8 @@ class SwerveController {
 
         void update();
         void setup();
+
+        void updateMotor();
         void updateTarget(SwerveUpdateData& data);
 
         //sensors 
@@ -73,17 +78,13 @@ class SwerveController {
 
         void updatePos();
 
-
-
-
- 
     private:
         float encMotorPID();
         float fwdMotorPID();
 
-
-
-
 };
+
+extern SwerveController swerve;
+
 
 #endif
