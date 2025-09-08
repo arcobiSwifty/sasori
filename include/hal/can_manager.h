@@ -5,8 +5,8 @@
 #include "hal/can_data.h"
 #include <ESP32-TWAI-CAN.hpp>
 //const int clockFrequency; 
-const int rx = 4;
-const int tx = 5;
+const int rx = 3;
+const int tx = 1;
 
 //packet id list 
 // update swerve target speed 0x123
@@ -27,6 +27,7 @@ class CanCommunicator {
         void setup(int clockFrequency);
 
         void updateSwerve(SwerveUpdateData data);
+
 
         void onReceiveSwerve(CanFrame &frame);
 

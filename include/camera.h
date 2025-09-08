@@ -1,23 +1,25 @@
-struct BlockPos {
-    float angle; 
-    float offsetX;
-    float distanceY;
-    bool error;
-};
-struct LinePos {
-    float angle; 
-    float offsetX;
-    bool error;
-};
+#ifndef CAM
+#define CAM
 
+#include "hal/can_data.h"
 
 
 class Camera {
 
-    void initialize(); //activate. get field orientation from first image processing.
+    void setup(); //activate. get field orientation from first image processing.
+
+    bool requestReceived = false;
+
+    static void canReceive();
+
+    void sendBlockPosition();
     
     BlockPos getBlockPosition();
 
     LinePos getLinePosition();
 
 };
+
+extern Camera cam;
+
+#endif

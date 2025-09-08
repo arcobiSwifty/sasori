@@ -4,17 +4,20 @@
 #include "swerve.h"
 #include "Bcontroller.h"
 #include "hal/can_manager.h"
+#include "arm.h"
 
 
 BluetoothController BC;
 Robot perry;
 CanCommunicator ESPcan;
+Arm arm;
 
 void setup() {
   
   ESPcan.setup(500E3);
   BC.connect();
   perry.setup();
+  arm.setup();
 
 }
 

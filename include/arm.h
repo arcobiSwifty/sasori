@@ -35,6 +35,6 @@ class Arm {
         volatile int targetPosTurret;
 };
 
-
+extern Arm arm;
 
 #endif

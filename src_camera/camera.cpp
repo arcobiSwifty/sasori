@@ -1,0 +1,8 @@
+#include "camera.h"
+#include "esp_camera.h"
+
+
+void Camera::setup() {
+
+}
+
