@@ -31,7 +31,7 @@ void SwerveController::setup() {
     pinMode(encDir, OUTPUT);
     pinMode(encPwm, OUTPUT);
 
-    pinMode(resetHS, INPUT);
+    pinMode(resetHS, INPUT_PULLUP);
     pinMode(wheelRot, INPUT);
     pinMode(enc1, INPUT_PULLUP);
     pinMode(enc2, INPUT_PULLUP);
@@ -40,11 +40,15 @@ void SwerveController::setup() {
     pinMode(gyroSDO, INPUT);
 
     attachInterrupt(digitalPinToInterrupt(enc1), encMotChange, FALLING);
-
+    attachInterrupt(digitalPinToInterrupt(resetHS), resetDone, FALLING);
 
 }
 
 void SwerveController::reset() { 
+    if (swerve.has_reset == false) {
+        swerve.targetAngleSpeed = 0.1; 
+        swerve.targetAngle = 3.14159 * 2;
+    }
 
 }
 
@@ -126,5 +130,14 @@ void encMotChange() {
         swerve.angle += 2 * 3.14159 * swerve.ENC_MOT_GEAR_RATIO / swerve.ENC_PULSES_PER_ROTATION; 
     } else {
         swerve.angle -= 2 * 3.14159 * swerve.ENC_MOT_GEAR_RATIO / swerve.ENC_PULSES_PER_ROTATION;
+    }
+}
+
+void resetDone() {
+    if (has_reset == false) {
+        swerve.angle = 0; 
+        swerve.targetAngle = 0;
+        swerve.targetAngleSpeed = 0;
+        swerve.has_reset = true;
     }
 }

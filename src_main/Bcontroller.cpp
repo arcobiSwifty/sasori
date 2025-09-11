@@ -89,7 +89,7 @@ void BluetoothController::handleEvent()
   if (abs(currentLStickX - LastLJoyStickX) > 0 || abs(currentLStickY - LastLJoyStickY) > 0)
   {
 
-    int LprocessedX = (abs(currentLStickX) < 30) ? 0 : currentLStickX; // deadzone check
+    int LprocessedX = (abs(currentLStickX) < 30) ? 0 : currentLStickX; 
     int LprocessedY = (abs(currentLStickY) < 30) ? 0 : currentLStickY;
 
     if (LastLJoyStickX != LprocessedX || LastLJoyStickY != LprocessedY)
@@ -103,7 +103,7 @@ void BluetoothController::handleEvent()
   if (abs(currentRStickX - LastRJoyStickX) > 0 || abs(currentRStickY - LastRJoyStickY) > 0)
   {
 
-    int RprocessedX = (abs(currentRStickX) < 30) ? 0 : currentRStickX; // dead zone check
+    int RprocessedX = (abs(currentRStickX) < 30) ? 0 : currentRStickX; 
     int RprocessedY = (abs(currentRStickY) < 30) ? 0 : currentRStickY;
 
     if (LastRJoyStickX != RprocessedX || LastRJoyStickY != RprocessedY)

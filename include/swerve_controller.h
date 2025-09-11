@@ -68,17 +68,18 @@ class SwerveController {
         volatile double targetRobotAngle;
         volatile double robotAngle;
 
-        volatile double robotCenterX;
-        volatile double robotCenterY;
+        volatile double robotCenterX = 0;
+        volatile double robotCenterY = 0;
 
-        volatile double angle;
-        volatile double speed;
+        volatile double angle = 0;
+        volatile double speed= 0;
 
         volatile double lastWheelAngle;
         double instantaneousSpeed; 
         double averageSpeed;
         double timeLastPolled; //change data type
 
+        bool has_reset = false;
         void update();
         void setup();
         void reset();
@@ -99,6 +100,8 @@ class SwerveController {
 };
 
 void encMotChange();
+
+void resetDone();
 
 extern SwerveController swerve;
 
