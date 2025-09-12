@@ -49,7 +49,6 @@ void SwerveController::reset() {
         swerve.targetAngleSpeed = 0.1; 
         swerve.targetAngle = 3.14159 * 2;
     }
-
 }
 
 void SwerveController::update() { 
@@ -134,10 +133,11 @@ void encMotChange() {
 }
 
 void resetDone() {
-    if (has_reset == false) {
+    if (swerve.has_reset == false) {
         swerve.angle = 0; 
         swerve.targetAngle = 0;
         swerve.targetAngleSpeed = 0;
         swerve.has_reset = true;
     }
+    detachInterrupt(digitalPinToInterrupt(swerve.resetHS));
 }

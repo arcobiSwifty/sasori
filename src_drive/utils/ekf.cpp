@@ -1,7 +1,7 @@
 #include "utils/ekf.h"
 #include <math.h>
 
-
+/*
 EKF::EKF() {
     for (int i = 0; i < STATE_SIZE; i++) {
         x_hat[i] = 0.0;
@@ -293,3 +293,4 @@ void EKF::updateBodyVelocity(float measured_vx_body, float measured_vy_body, flo
     matrix_subtract(I_minus_KH_vel, K_H_vel, I_minus_KH_vel, STATE_SIZE);
     matrix_multiply(I_minus_KH_vel, P, P, STATE_SIZE);
 }
+*/

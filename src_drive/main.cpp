@@ -1,5 +1,4 @@
 #include <Arduino.h>
-#include <Eigen/Dense>
 #include "swerve_controller.h"
 #include "hal/stm32_can_manager.h"
 #include "imu.h"
@@ -7,6 +6,7 @@
 
 SwerveController swerve;
 STMCanCommunicator can;
+//Adafruit_MPU6050 mpu;
 
 void setup() {
   swerve.InitMotorPins(PA0,PA1,PA2,PA3);
