@@ -1,4 +1,5 @@
 #include "swerve_controller.h"
+#include "hal/stm32_can_manager.h"
 #include <Arduino.h>
 #include <math.h>
 
@@ -87,8 +88,30 @@ void SwerveController::updatePos() {
 
     double temp_dx = travelledDistance * cos(angle);
     double temp_dy = travelledDistance * sin(angle); 
+    SwerveModulePositionChange dataToSend;
+    dataToSend.dx = temp_dx;
+    dataToSend.dy = temp_dy;
 
-    can.updatePosition(temp_dx, temp_dy);
+    FDCAN_TxHeaderTypeDef txHeader;
+    txHeader.Identifier = 0x124;                  // The CAN ID for this message
+    txHeader.IdType = FDCAN_STANDARD_ID;          // Standard 11-bit ID
+    txHeader.TxFrameType = FDCAN_DATA_FRAME;      // This is a data frame
+    txHeader.DataLength = FDCAN_DLC_BYTES_8;      // Data Length Code (8 bytes)
+    txHeader.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
+    txHeader.BitRateSwitch = FDCAN_BRS_OFF;       // No high-speed data phase
+    txHeader.FDFormat = FDCAN_CLASSIC_CAN;        // Using classic CAN, not CAN-FD
+    txHeader.TxEventFifoControl = FDCAN_NO_TX_EVENTS;
+    txHeader.MessageMarker = 0;
+
+
+  uint8_t txData[8];
+  memcpy(txData, &dataToSend, sizeof(SwerveModulePositionChange));
+
+
+  if (can.addMessageToTxFifoQ(&txHeader, txData) != HAL_OK) {
+
+  }
+
 
     this->absX += temp_dx;
     this->absY += temp_dy;

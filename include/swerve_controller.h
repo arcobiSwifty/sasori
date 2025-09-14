@@ -3,9 +3,7 @@
 
 #include "hal/can_data.h"
 #include "hal/stm32_can_manager.h"
-#include <Adafruit_MPU6050.h>
-#include <Adafruit_Sensor.h>
-#include <Wire.h>
+
 
 // from joystick imputs, calculates each modules desidered movement. communicates with swerve modules and updates central position. 
 //sends update to modules about desired speed / angle
@@ -108,7 +106,7 @@ void encMotChange();
 void resetDone();
 
 extern SwerveController swerve;
-extern Adafruit_MPU6050 mpu;
+
 
 
 #endif
