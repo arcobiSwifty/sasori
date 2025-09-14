@@ -33,7 +33,7 @@ class CanCommunicator {
 
         void updateCamera(CameraUpdateData data);
 
-        CameraPosData receiveCamera();
+        void onReceiveCamera();
 
         void reset();
 

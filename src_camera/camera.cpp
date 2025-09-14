@@ -82,6 +82,25 @@ void rgb_to_hsv(uint8_t r, uint8_t g, uint8_t b, uint8_t *h, uint8_t *s, uint8_t
     }
 }
 
+bool is_rock(&h,&s,&v) {
+    const uint8_t h_min, h_max;
+    const uint8_t s_min, s_max;
+    const uint8_t v_min, v_max;
+
+    if (h < h_min || h > h_max) {
+        return false;
+    }
+    if (s < s_min || s > s_max) {
+        return false;
+    }
+    if (v < v_min || v > v_max) {
+        return false;
+    }
+    return true;
+}
+
+
+
 
 
 BlockPos Camera::getBlockPosition() {
@@ -89,6 +108,9 @@ BlockPos Camera::getBlockPosition() {
     esp_camera_fb_return(fb);
 
     int index = 0;
+
+    uint8_t output_mask_buffer[120][160];
+
     for (int row = 0; row < fb->height; row++) {
         for (int col = 0; col < fb->width; col++) {
             uint8_t byte1 = fb->buf[index];
@@ -100,8 +122,16 @@ BlockPos Camera::getBlockPosition() {
             uint8_t b = ((pixel >> 11) & 0x1F) << 3; 
             uint8_t h, s, v;
             rgb_to_hsv(r, g, b, &h, &s, &v);
+
+            if (is_rock(h,s,v)) {
+                output_mask_buffer[row][column] = 255;
+            } else {
+                output_mask_buffer[row][column] = 0;
+            }
+
         }
     }
+    // smooth
 
 }
 
