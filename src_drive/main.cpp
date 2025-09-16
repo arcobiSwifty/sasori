@@ -20,9 +20,10 @@ SimpleCan::RxHandler rxHandler(8, can_message_handler);
 
 void setup() {
   swerve.InitMotorPins(PA0,PA1,PA2,PA3);
-  swerve.InitSensorPins(PB0, PB1, PB2, PB3, PB4, PB5, PB6, PB7);
+  swerve.InitSensorPins(PB0, PB1, PB4, PB6, PB7, PB2, PB3, PB7);
   swerve.setup();   // setup arduino pins 
   swerve.reset(); //reset motor orientation to match hall effect sensor
+  
   can.init(CanSpeed::Kbit500);
   FDCAN_FilterTypeDef filterDef;
   filterDef.IdType = FDCAN_STANDARD_ID;       

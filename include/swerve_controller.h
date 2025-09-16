@@ -76,10 +76,12 @@ class SwerveController {
         volatile double angle = 0;
         volatile double speed= 0;
 
-        volatile double lastWheelAngle;
+        volatile double lastWheelAngle; // to do: make ints!
         double instantaneousSpeed; 
         double averageSpeed;
-        double timeLastPolled; //change data type
+        unsigned long millisLastPolled; //change data type
+
+        
 
         bool has_reset = false;
         void update();

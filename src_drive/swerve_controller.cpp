@@ -89,8 +89,10 @@ void SwerveController::updatePos() {
     double temp_dx = travelledDistance * cos(angle);
     double temp_dy = travelledDistance * sin(angle); 
     SwerveModulePositionChange dataToSend;
-    dataToSend.dx = temp_dx;
-    dataToSend.dy = temp_dy;
+    dataToSend.dx = this->absX + temp_dx;
+    dataToSend.dy = this->absY + temp_dy;
+
+    if (abs(temp_dx) > 0 || abs(temp_dy) > 0) {
 
     FDCAN_TxHeaderTypeDef txHeader;
     txHeader.Identifier = 0x124;                  // The CAN ID for this message
@@ -113,12 +115,17 @@ void SwerveController::updatePos() {
   }
 
 
+
     this->absX += temp_dx;
     this->absY += temp_dy;
 
     
     //update timeLastPolled
+    unsigned long currentMillis = millis();
+    this->instantaneousSpeed = sqrt(temp_dx*temp_dx + temp_dy*temp_dy) / (currentMillis - millisLastPolled);
+    this->millisLastPolled = currentMillis;
     //update average and instantaneous speed
+}
 
 
     //error correction necessary
