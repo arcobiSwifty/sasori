@@ -34,6 +34,8 @@ class BluetoothController {
     public: 
         BluetoothController();
 
+        unsigned long last_poll;
+
         volatile bool armMode; 
         volatile bool commandSent;
 

@@ -1,37 +1,41 @@
 #include "Arduino.h"
-#include "MPU9250.h"
+//#include "MPU9250.h"
 #include "drive.h"
 #include <math.h>
 #include <algorithm>
 
-#define MOTA_DIR 1
-#define MOTA_PWM 2
-#define MOTB_DIR 3 
-#define MOTB_PWM 4 
-#define MOTC_DIR 5
-#define MOTC_PWM 6
+
+#define MOTA_DIR 4
+#define MOTA_PWM 15
+#define MOTB_DIR 22
+#define MOTB_PWM 23
+#define MOTC_DIR 19
+#define MOTC_PWM 18
 
 
 
-
+Robot::Robot() {
+    
+}
 
 void Robot::update() {
     // get data from sensors
-    if (mpu.update()) {
-        float measuredYaw = mpu.getYaw();
-        Serial.println(mpu.getYaw()); 
-        perry.yaw = measuredYaw;
-    }
+    //if (mpu.update()) {
+       // float measuredYaw = mpu.getYaw();
+      //  Serial.println(mpu.getYaw()); 
+       // perry.yaw = measuredYaw;
+   // }
     //pid on values
     perry.move();
 }
 void Robot::setup() {
     pinMode(MOTA_DIR, OUTPUT);
-    pinMode(MOTB_DIR, OUTPUT);
-    pinMode(MOTC_DIR, OUTPUT);
+  //  pinMode(MOTB_DIR, OUTPUT);
+   // pinMode(MOTC_DIR, OUTPUT);
     pinMode(MOTA_PWM, OUTPUT);
-    pinMode(MOTB_PWM, OUTPUT);
-    pinMode(MOTC_PWM, OUTPUT);
+  //  pinMode(MOTB_PWM, OUTPUT);
+   // pinMode(MOTC_PWM, OUTPUT);
+   lastMove = millis();
 }
 
 void multiply(const float A[3][2], const float B[2][2], float C[3][2]) {
@@ -76,32 +80,71 @@ void get_abs(const float A[3][1], float B[3][1]) {
 }
 
 void Robot::move() {
+
+    unsigned long current_time = millis();
+    if (current_time - this->lastMove < 10) {
+        return;
+    } else {
+        lastMove = current_time;
+    }
+
+    if ((abs(target_vx) > 0.0) || (abs(target_vy) > 0.0)) {
     
     const float SQRT3_DIV_2 = 0.86602540378;
-    float w = target_yaw - yaw / 2;
+    //float w = target_yaw - yaw / 2.0;
+    float w = 0.1;
+    Serial.print(target_vx);
+    Serial.print("x");
+    Serial.print(target_vy);
+    Serial.println("y");
 
-    float v1 = target_vy +  w;
-    float v2 = -SQRT3_DIV_2 * target_vx - 0.5 * target_vy +  w;
-    float v3 = SQRT3_DIV_2 * target_vx - 0.5 * target_vy +   w;
 
-    float abs_v1 = abs(v1);
-    float abs_v2 = abs(v2);
-    float abs_v3 = abs(v3);
+    float v1_t = target_vy +  w;
+    float v2_t = -SQRT3_DIV_2 * target_vx - 0.5 * target_vy +  w;
+    float v3_t = SQRT3_DIV_2 * target_vx - 0.5 * target_vy +   w;
+    Serial.print(v1_t);
+    Serial.print(", ");
+    Serial.print(v3_t);
+    Serial.print(", ");
+    Serial.println(v3_t);
+    
 
+    float abs_v1 = abs(v1_t);
+    float abs_v2 = abs(v2_t);
+    float abs_v3 = abs(v3_t);
     float biggest = max({abs_v1, abs_v2, abs_v3});
-    v1 /= biggest;
-    v2 /= biggest; 
-    v3 /= biggest;
-    abs_v1 /= biggest;
-    abs_v2 /= biggest;
-    abs_v3 /= biggest;
+    if (biggest > 0) {
+        v1_t /= biggest;
+        v2_t /= biggest; 
+        v3_t /= biggest;
+        abs_v1 /= biggest;
+        abs_v2 /= biggest;
+        abs_v3 /= biggest;
+    } else {
+        v1_t = 0; 
+        v2_t = 0;
+        v3_t = 0;
+        abs_v1 = 0;
+        abs_v2 = 0;
+        abs_v3=0;
+    }
+    Serial.print(v1_t);
+    Serial.print(", ");
+    Serial.print(v3_t);
+    Serial.print(", ");
+    Serial.println(v3_t);
 
-    digitalWrite(MOTA_DIR, (v1 > 0) ? 1 : 0);
-    digitalWrite(MOTB_DIR, (v2 > 0) ? 1 : 0);
-    digitalWrite(MOTC_DIR, (v3 > 0) ? 1 : 0);
+    digitalWrite(MOTA_DIR, (v1_t > 0) ? 1 : 0);
+    digitalWrite(MOTB_DIR, (v2_t > 0) ? 1 : 0);
+    digitalWrite(MOTC_DIR, (v3_t > 0) ? 1 : 0);
     analogWrite(MOTA_PWM, abs_v1*255);
     analogWrite(MOTB_PWM, abs_v2*255);
     analogWrite(MOTC_PWM, abs_v3*255);
+    } else {
+        analogWrite(MOTA_PWM, 0);
+    analogWrite(MOTB_PWM, 0);
+    analogWrite(MOTC_PWM, 0);
+    }
 
 }
 
