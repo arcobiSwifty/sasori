@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include "Bcontroller.h"
-#include "hal/can_manager.cpp"
+#include "hal/can_manager.h"
 #include "drive.h"
 
 
@@ -18,7 +18,7 @@ void setup() {
     mpu.setup(0x68);
     mpu.calibrateAccelGyro();
     BC.connect();
-    ESPcan.setup(500E3);
+    //ESPcan.setup(500E3);
     
   
 
