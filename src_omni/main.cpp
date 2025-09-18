@@ -2,12 +2,14 @@
 #include "Bcontroller.h"
 
 #include "drive.h"
+#include "arm.h"
 
 
 BluetoothController BC;
 Robot perry;
 //CanCommunicator ESPcan;
 //MPU9250 mpu; 
+Arm arm;
 
 
 void setup() {
@@ -20,6 +22,7 @@ void setup() {
     BC.connect();
     //ESPcan.setup(500E3);
     perry.setup();
+    arm.setup();
     
   
 

@@ -79,6 +79,10 @@ void get_abs(const float A[3][1], float B[3][1]) {
     }
 }
 
+float toRadians(float degrees) {
+    return degrees * 2 * PI / 360.0;
+}
+
 void Robot::move() {
 
     unsigned long current_time = millis();
@@ -92,12 +96,20 @@ void Robot::move() {
     
     const float SQRT3_DIV_2 = 0.86602540378;
     //float w = target_yaw - yaw / 2.0;
-    float w = 0.1;
+    float w = 0.0;
     Serial.print(target_vx);
     Serial.print("x");
     Serial.print(target_vy);
     Serial.println("y");
 
+    float theta1 = toRadians(0.0 + yaw);
+    float theta2 = toRadians(120.0 + yaw);
+    float theta3 = toRadians(240.0 + yaw);
+
+    // Use the inverse kinematics formula for each wheel
+    double v_wheel1 = -target_vx * sin(theta1) + target_vy * cos(theta1) + w;
+    double v_wheel2 = -target_vx * sin(theta2) +target_vy * cos(theta2) + w;
+    double v_wheel3 = -target_vx * sin(theta3) + target_vy * cos(theta3) + w;
 
     float v1_t = target_vy +  w;
     float v2_t = -SQRT3_DIV_2 * target_vx - 0.5 * target_vy +  w;
@@ -128,11 +140,7 @@ void Robot::move() {
         abs_v2 = 0;
         abs_v3=0;
     }
-    Serial.print(v1_t);
-    Serial.print(", ");
-    Serial.print(v3_t);
-    Serial.print(", ");
-    Serial.println(v3_t);
+
 
     digitalWrite(MOTA_DIR, (v1_t > 0) ? 1 : 0);
     digitalWrite(MOTB_DIR, (v2_t > 0) ? 1 : 0);
@@ -141,7 +149,7 @@ void Robot::move() {
     analogWrite(MOTB_PWM, abs_v2*255);
     analogWrite(MOTC_PWM, abs_v3*255);
     } else {
-        analogWrite(MOTA_PWM, 0);
+    analogWrite(MOTA_PWM, 0);
     analogWrite(MOTB_PWM, 0);
     analogWrite(MOTC_PWM, 0);
     }
