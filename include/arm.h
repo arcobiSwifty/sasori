@@ -10,6 +10,7 @@ class Arm {
         void update();
 
         void goTo(const float z, const float phi, const float r);
+        void relativeMove(const float z, const float phi, const float r);
         bool hasArrived();
 
         void grip();

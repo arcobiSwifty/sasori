@@ -28,8 +28,12 @@
 #define SW_TX     11 // SoftwareSerial TX -> Driver RX
  
 HardwareSerial &mySerial = Serial1;
-// Create the driver object
 TMC2209Stepper driver(&mySerial,0.11f,0);
+
+FastAccelStepperEngine engine = FastAccelStepperEngine();
+FastAccelStepper *stepperPrimary = NULL;
+FastAccelStepper *stepperSecondary = NULL;
+FastAccelStepper *stepperTurret = NULL;
 
 
 void Arm::setup() {
@@ -76,20 +80,75 @@ driver.sedn(1); // Set current down-step speed
 
 // Enable CoolStep by setting a non-zero hysteresis
 driver.TCOOLTHRS(0xFFFFF); // Set a threshold to activate CoolStep
+
+
+  // Initialize the single engine for all steppers
+  engine.init();
+
+  stepperPrimary = engine.stepperConnectToPin(PRIMARY_STEP);
+  if (stepperPrimary) {
+    stepperPrimary->setDirectionPin(PRIMARY_DIR);
+    stepperPrimary->setEnablePin(ENABLE_PIN);
+    stepperPrimary->setAutoEnable(false);
+    stepperPrimary->setAcceleration(500); // steps/s^2
+    stepperPrimary->setSpeedInHz(1000);    // steps/s
+  }
+
+
+  stepperSecondary = engine.stepperConnectToPin(SECONDARY_STEP);
+  if (stepperSecondary) {
+    stepperSecondary->setDirectionPin(SECONDARY_DIR);
+    stepperSecondary->setEnablePin(ENABLE_PIN);
+    stepperSecondary->setAutoEnable(false);
+    stepperSecondary->setAcceleration(500);
+    stepperSecondary->setSpeedInHz(1000);
+  }
+
+  // --- Configure Stepper Z ---
+  stepperTurret = engine.stepperConnectToPin(TURRET_STEP);
+  if (stepperTurret) {
+    stepperTurret->setDirectionPin(TURRET_DIR);
+    stepperTurret->setEnablePin(ENABLE_PIN);
+    stepperTurret->setAutoEnable(false);
+    stepperTurret->setAcceleration(25000); // Z-axis might be heavier
+    stepperTurret->setSpeedInHz(500);
+  }
+
+  stepperPrimary->setCurrentPosition(457);
+  stepperSecondary->setCurrentPosition(-49);
+  stepperTurret->setCurrentPosition(0);
+
 }
 
-void Arm::goTo(const float rho, const float phi, const float r) {
+const float ratio1 = 450;
+const float ratio2 = 30.0 / 12.0;
+void Arm::goTo(const float rho, const float phi, const float r)
+{
     this->targetRho = rho;
     this->targetPhi = phi;
     this->targetR = r;
 
-    float primaryAngle = acos(r / (2.0*ARM_LENGTH)) + rho / 2.0;
-    float secondaryAngle = acos(r / (2.0*ARM_LENGTH)) - rho / 2.0;
+    float primaryAngle = acos(r / (2.0 * ARM_LENGTH)) + rho / 2.0;
+    float secondaryAngle = acos(r / (2.0 * ARM_LENGTH)) - rho / 2.0;
     float turretAngle = phi;
 
     this->targetPosTurret = static_cast<int>(turretAngle / 360.0 * 200.0);
     this->targetPosPrimary = static_cast<int>(primaryAngle / 360.0 * 200.0);
     this->targetPosSecondary = static_cast<int>(secondaryAngle / 360.0 * 200.0);
+    stepperPrimary->moveTo(targetPosPrimary * ratio1);
+    stepperSecondary->moveTo(targetPosSecondary * ratio2);
+    stepperTurret->moveTo(targetPosTurret * ratio2);
+}
+
+void Arm::relativeMove(const float drho, const float dphi, const float dr)
+{
+    float primaryAngle = acos(dr / (2.0 * ARM_LENGTH)) + drho / 2.0;
+    float secondaryAngle = acos(dr / (2.0 * ARM_LENGTH)) - drho / 2.0;
+    float turretAngle = dphi;
+
+    stepperPrimary->moveTo(stepperPrimary->getCurrentPosition() + targetPosPrimary * ratio1);
+    stepperSecondary->moveTo(stepperSecondary->getCurrentPosition() + targetPosSecondary * ratio2);
+    stepperTurret->moveTo(stepperTurret->getCurrentPosition() + targetPosTurret * ratio2);
 }
 
 void Arm::update() { 

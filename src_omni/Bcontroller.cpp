@@ -4,7 +4,7 @@
 #include <ps4Controller.h>
 #include "drive.h"
 #include <math.h>
-
+#include "arm.h"
 
 BluetoothController::BluetoothController()
 {
@@ -64,8 +64,9 @@ void BluetoothController::handleEvent()
   if (ps4.event.button_down.l1)
   {
   }
-  if (ps4.event.button_down.l2)
+  if (ps4.event.button_up.l2)
   {
+    arm.relativeMove(10, 0, 0);
   }
   if (ps4.event.button_down.l3)
   {
@@ -73,23 +74,28 @@ void BluetoothController::handleEvent()
   if (ps4.event.button_down.r1)
   {
   }
-  if (ps4.event.button_down.r2)
+  if (ps4.event.button_up.r2)
   {
+    arm.relativeMove(-10, 0, 0);
   }
   if (ps4.event.button_down.r3)
   {
   }
-  if (ps4.event.button_down.left)
+  if (ps4.event.button_up.left)
   {
+    arm.relativeMove(0, -10.0, 0);
   }
-  if (ps4.event.button_down.right)
+  if (ps4.event.button_up.right)
   {
+    arm.relativeMove(0, 10.0, 0);
   }
-  if (ps4.event.button_down.down)
+  if (ps4.event.button_up.down)
   {
+    arm.relativeMove(0, 0, 10);
   }
   if (ps4.event.button_down.up)
   {
+    arm.relativeMove(0, 0, 10);
   }
 
   int currentLStickX = ps4.LStickX();
@@ -97,22 +103,16 @@ void BluetoothController::handleEvent()
   int currentRStickX = ps4.RStickX();
   int currentRStickY = ps4.RStickY();
 
+  int LprocessedX = (abs(currentLStickX) < 30) ? 0 : currentLStickX; 
+  int LprocessedY = (abs(currentLStickY) < 30) ? 0 : currentLStickY;
 
-
-    int LprocessedX = (abs(currentLStickX) < 30) ? 0 : currentLStickX; 
-    int LprocessedY = (abs(currentLStickY) < 30) ? 0 : currentLStickY;
-
-
-      perry.target_vx = static_cast<float>(LprocessedX) / 128.0; 
-      perry.target_vy = static_cast<float>(LprocessedY) / 128.0;
+  perry.target_vx = static_cast<float>(LprocessedX) / 128.0; 
+  perry.target_vy = static_cast<float>(LprocessedY) / 128.0;
     
+  int RprocessedX = (abs(currentRStickX) < 30) ? 0 : currentRStickX; 
+  int RprocessedY = (abs(currentRStickY) < 30) ? 0 : currentRStickY;
 
-    int RprocessedX = (abs(currentRStickX) < 30) ? 0 : currentRStickX; 
-    int RprocessedY = (abs(currentRStickY) < 30) ? 0 : currentRStickY;
-
-    perry.target_yaw = atan(static_cast<float>(RprocessedY) / static_cast<float>(RprocessedX) );
-
-
+  perry.target_yaw = atan(static_cast<float>(RprocessedY) / static_cast<float>(RprocessedX) );
 }
 
 //in error state, set led to red
