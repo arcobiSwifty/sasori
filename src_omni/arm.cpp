@@ -2,7 +2,8 @@
 #include "arm.h"
 #include <math.h>
 #include <TMCStepper.h>
-#include <SoftwareSerial.h> 
+#include "FastAccelStepper.h"
+#include <HardwareSerial.h>
 
 #define PRIMARY_DIR 1
 #define SECONDARY_DIR 2
@@ -20,17 +21,19 @@
 
 #define ARM_LENGTH 300.0
 
+#define DRIVER_RX_PIN 16 
+#define DRIVER_TX_PIN 17
+
 #define SW_RX     10 // SoftwareSerial RX -> Driver TX
 #define SW_TX     11 // SoftwareSerial TX -> Driver RX
-
-// Use SoftwareSerial or a free HardwareSerial port
-SoftwareSerial mySerial(SW_TX, SW_RX); 
-
+ 
+HardwareSerial &mySerial = Serial1;
 // Create the driver object
-TMC2209Stepper driver(&mySerial);
+TMC2209Stepper driver(&mySerial,0.11f,0);
 
 
 void Arm::setup() {
+
     pinMode(PRIMARY_DIR, OUTPUT);
     pinMode(SECONDARY_DIR, OUTPUT);
     pinMode(TURRET_DIR, OUTPUT);
@@ -45,21 +48,20 @@ void Arm::setup() {
 
     pinMode(ENABLE_PIN, OUTPUT);
 
-     mySerial.begin(115200); // TMC2209 default baud rate
-  Serial.begin(115200);   // For debugging
+    mySerial.begin(115200, SERIAL_8N1, DRIVER_RX_PIN, DRIVER_TX_PIN);
 
-  driver.begin();
+    driver.begin();
   
-  driver.I_scale_analog(false); 
+    driver.I_scale_analog(false); 
   
   // Set driver current in milliamps (mA)
   // IRUN is the running current, IHOLD is the holding current
-  driver.rms_current(800, 0.1); // 800mA run current, 10% (80mA) hold current
+    driver.rms_current(1800, 0.1); // 800mA run current, 10% (80mA) hold current
 
   // Enable StealthChop for silent operation
-  driver.toff(4); // Recommended value for StealthChop
+    driver.toff(4); // Recommended value for StealthChop
 
-  driver.stealth = false;
+   driver.pdn_disable(true);
 
 // Set the StallGuard threshold. This value (0-255) needs tuning.
 // A lower value is more sensitive. Start around 10-20.
