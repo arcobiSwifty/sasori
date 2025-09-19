@@ -5,6 +5,7 @@
 
 
 class Camera {
+    public:
 
     void setup(); //activate. get field orientation from first image processing.
 
@@ -14,7 +15,7 @@ class Camera {
 
     void sendBlockPosition();
     
-    BlockPos getBlockPosition();
+    BlockPos getBlockPosition(int blockType);
 
     LinePos getLinePosition();
 
