@@ -103,14 +103,14 @@ void BluetoothController::handleEvent()
   int currentRStickX = ps4.RStickX();
   int currentRStickY = ps4.RStickY();
 
-  int LprocessedX = (abs(currentLStickX) < 30) ? 0 : currentLStickX; 
-  int LprocessedY = (abs(currentLStickY) < 30) ? 0 : currentLStickY;
+  int LprocessedX = (abs(currentLStickX) < 15) ? 0 : currentLStickX; 
+  int LprocessedY = (abs(currentLStickY) < 15) ? 0 : currentLStickY;
 
   perry.target_vx = static_cast<float>(LprocessedX) / 128.0; 
   perry.target_vy = static_cast<float>(LprocessedY) / 128.0;
     
-  int RprocessedX = (abs(currentRStickX) < 30) ? 0 : currentRStickX; 
-  int RprocessedY = (abs(currentRStickY) < 30) ? 0 : currentRStickY;
+  int RprocessedX = (abs(currentRStickX) < 15) ? 0 : currentRStickX; 
+  int RprocessedY = (abs(currentRStickY) < 15) ? 0 : currentRStickY;
 
   perry.target_yaw = atan(static_cast<float>(RprocessedY) / static_cast<float>(RprocessedX) );
 }

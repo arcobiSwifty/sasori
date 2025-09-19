@@ -5,27 +5,22 @@
 #include "FastAccelStepper.h"
 #include <HardwareSerial.h>
 
-#define PRIMARY_DIR 1
-#define SECONDARY_DIR 2
-#define TURRET_DIR 3
+#define PRIMARY_DIR 17
+#define SECONDARY_DIR 18
+#define TURRET_DIR 21
 
-#define PRIMARY_STEP 4
-#define SECONDARY_STEP 5
+#define PRIMARY_STEP 16
+#define SECONDARY_STEP 19
 #define TURRET_STEP 6
 
-#define ENABLE_PIN 7 
 
-#define PRIMARY_UART 8
-#define SECONDARY_UART 9
-#define TURRET_UART 10
+#define PRIMARY_UART 17
 
 #define ARM_LENGTH 300.0
 
-#define DRIVER_RX_PIN 16 
-#define DRIVER_TX_PIN 17
+#define DRIVER_RX_PIN 3 
+#define DRIVER_TX_PIN 1
 
-#define SW_RX     10 // SoftwareSerial RX -> Driver TX
-#define SW_TX     11 // SoftwareSerial TX -> Driver RX
  
 HardwareSerial &mySerial = Serial1;
 TMC2209Stepper driver(&mySerial,0.11f,0);
@@ -47,10 +42,7 @@ void Arm::setup() {
     pinMode(TURRET_STEP, OUTPUT);
 
     pinMode(PRIMARY_UART, OUTPUT);
-    pinMode(SECONDARY_UART, OUTPUT);
-    pinMode(PRIMARY_DIR, OUTPUT);
 
-    pinMode(ENABLE_PIN, OUTPUT);
 
     mySerial.begin(115200, SERIAL_8N1, DRIVER_RX_PIN, DRIVER_TX_PIN);
 
@@ -88,8 +80,6 @@ driver.TCOOLTHRS(0xFFFFF); // Set a threshold to activate CoolStep
   stepperPrimary = engine.stepperConnectToPin(PRIMARY_STEP);
   if (stepperPrimary) {
     stepperPrimary->setDirectionPin(PRIMARY_DIR);
-    stepperPrimary->setEnablePin(ENABLE_PIN);
-    stepperPrimary->setAutoEnable(false);
     stepperPrimary->setAcceleration(500); // steps/s^2
     stepperPrimary->setSpeedInHz(1000);    // steps/s
   }
@@ -98,8 +88,6 @@ driver.TCOOLTHRS(0xFFFFF); // Set a threshold to activate CoolStep
   stepperSecondary = engine.stepperConnectToPin(SECONDARY_STEP);
   if (stepperSecondary) {
     stepperSecondary->setDirectionPin(SECONDARY_DIR);
-    stepperSecondary->setEnablePin(ENABLE_PIN);
-    stepperSecondary->setAutoEnable(false);
     stepperSecondary->setAcceleration(500);
     stepperSecondary->setSpeedInHz(1000);
   }
@@ -108,9 +96,7 @@ driver.TCOOLTHRS(0xFFFFF); // Set a threshold to activate CoolStep
   stepperTurret = engine.stepperConnectToPin(TURRET_STEP);
   if (stepperTurret) {
     stepperTurret->setDirectionPin(TURRET_DIR);
-    stepperTurret->setEnablePin(ENABLE_PIN);
-    stepperTurret->setAutoEnable(false);
-    stepperTurret->setAcceleration(25000); // Z-axis might be heavier
+    stepperTurret->setAcceleration(200); // Z-axis might be heavier
     stepperTurret->setSpeedInHz(500);
   }
 
@@ -171,9 +157,9 @@ void Arm::update() {
 
 
 void Arm::pause() { 
-    digitalWrite(ENABLE_PIN, HIGH);
+  
 }
 
 void Arm::unpause() {
-    digitalWrite(ENABLE_PIN, LOW);
+
 }
