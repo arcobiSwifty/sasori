@@ -22,7 +22,7 @@ void setup() {
     BC.connect();
     //ESPcan.setup(500E3);
     perry.setup();
-    arm.setup();
+    //arm.setup();
     
   
 
