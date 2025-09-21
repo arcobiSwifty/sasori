@@ -23,6 +23,10 @@ class Robot {
         volatile float target_yaw = 0;
         volatile float yaw = 0;
 
+        bool is_jiritu = false;
+        unsigned long jiritu_start;
+        int fase = 5;
+
         unsigned long lastMove;
 };
 

@@ -42,11 +42,6 @@ void BluetoothController::handleEvent()
 {
   
   unsigned long current_time = millis();
-  if (current_time - last_poll < 20) {
-    return;
-  } else {
-    last_poll = current_time;
-  }
 
   if (ps4.Cross())
   {
@@ -64,9 +59,9 @@ void BluetoothController::handleEvent()
   if (ps4.event.button_down.l1)
   {
   }
-  if (ps4.event.button_up.l2)
+  if (ps4.L2())
   {
-    arm.relativeMove(10, 0, 0);
+   // arm.relativeMove(500, 0, 0);
   }
   if (ps4.event.button_down.l3)
   {
@@ -74,29 +69,42 @@ void BluetoothController::handleEvent()
   if (ps4.event.button_down.r1)
   {
   }
-  if (ps4.event.button_up.r2)
+  if (ps4.R2())
   {
-    arm.relativeMove(-10, 0, 0);
+  //  Serial.println("right");
+  //  arm.relativeMove(-500, 0, 0);
+    
   }
   if (ps4.event.button_down.r3)
   {
   }
-  if (ps4.event.button_up.left)
+  if (ps4.Left())
   {
-    arm.relativeMove(0, -10.0, 0);
+  //  arm.relativeMove(0, -10.0, 0);
   }
-  if (ps4.event.button_up.right)
+  if (ps4.Right())
   {
-    arm.relativeMove(0, 10.0, 0);
+    //Serial.println("right");
+    //arm.relativeMove(0, 10.0, 0);
   }
-  if (ps4.event.button_up.down)
+  if (ps4.Down())
   {
-    arm.relativeMove(0, 0, 10);
+   // Serial.println("down");
+   // arm.relativeMove(0, 0, -10);
   }
-  if (ps4.event.button_down.up)
-  {
-    arm.relativeMove(0, 0, 10);
+  if (ps4.Up()) { 
+    
+    //Serial.println("down");
+  //  arm.relativeMove(0, 0, 10);
+  
   }
+
+    if (current_time - last_poll < 20) {
+    return;
+  } else {
+    last_poll = current_time;
+  }
+
 
   int currentLStickX = ps4.LStickX();
   int currentLStickY = ps4.LStickY();
@@ -106,8 +114,11 @@ void BluetoothController::handleEvent()
   int LprocessedX = (abs(currentLStickX) < 15) ? 0 : currentLStickX; 
   int LprocessedY = (abs(currentLStickY) < 15) ? 0 : currentLStickY;
 
-  perry.target_vx = static_cast<float>(LprocessedX) / 128.0; 
-  perry.target_vy = static_cast<float>(LprocessedY) / 128.0;
+  float lpxf = static_cast<float>(LprocessedX);
+  float lpyf = static_cast<float>(LprocessedY);
+
+  perry.target_vx = lpxf * lpxf * lpxf / (128.0*128.0*128.0); 
+  perry.target_vy = lpyf * lpyf * lpyf/ (128.0*128.0*128.0);
     
   int RprocessedX = (abs(currentRStickX) < 15) ? 0 : currentRStickX; 
   int RprocessedY = (abs(currentRStickY) < 15) ? 0 : currentRStickY;
